@@ -9,7 +9,12 @@
         <div class="login-bg"></div>
         <div class="login-content">
           <h3>WELCOME BACK</h3>
-          <s-form :searchList="searchList" :formField='formField' :option="{'label-width': '70px', 'label-position': 'left'}"></s-form>
+          <s-form :searchList="searchList" :formField='formField'
+           :option="{'label-width': '0px', 'label-position': 'left'}">
+            <template #action="{form}">
+              <el-button type="primary" class="w-100 btn" @click="login(form)">登录</el-button>
+            </template>
+          </s-form>
         </div>
       </div>
     </div>
@@ -18,35 +23,48 @@
 
 <script lang="ts">
 import { ref, defineComponent, reactive } from 'vue'
+import { useRouter } from 'vue-router'
 
 export default defineComponent({
   setup() {
+    const router = useRouter()
+
     const searchList = ref([
       {
         prop: 'username', 
-        label: '用户名', 
+        label: '', 
         tagType: 'el-input', 
         config: {
-          placeholder: '请输入用户名'
-        }
+          placeholder: '账号'
+        },
+        rules: [
+          {required: true, message: '请输入账号', trigger: 'blur'}
+        ]
       },
       {
         prop: 'password', 
-        label: '密码', 
+        label: '', 
         tagType: 'el-input', 
         config: {
-          placeholder: '请输入密码',
+          placeholder: '密码',
           'show-password': true
         },
+        rules: [
+          {required: true, message: '请输入密码', trigger: 'blur'}
+        ]
       }
     ])
+    function login(form: any) {
+      form.validate((valid: boolean) => {
+        if (valid) {
+          router.push('/')
+        }
+      })
+    }
     return {
       searchList,
-      formField: reactive(
-        {
-          username: ''
-        }
-      ) 
+      formField: reactive({ username: 'admin', password: '123456' }),
+      login
     }
   }
 })
@@ -102,6 +120,12 @@ export default defineComponent({
       color: #292929;
       margin-bottom: 82px;
     }
+  }
+  ::v-deep .el-form-item {
+    margin-bottom: 40px;
+  }
+  .btn {
+    margin-top: 30px;
   }
 }
 </style>

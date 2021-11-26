@@ -12,7 +12,7 @@
         </el-form-item>
       </el-col>
       <el-col :span="24">
-        <slot name="action" v-bind="{clearAll, search}">
+        <slot name="action" v-bind="{clearAll, search}" :form='form'>
           <div class="text-right">
             <el-button @click="clearAll">清空</el-button>
             <el-button type="primary" @click="search">查询</el-button>
