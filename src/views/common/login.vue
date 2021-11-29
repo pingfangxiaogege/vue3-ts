@@ -42,7 +42,7 @@ export default defineComponent({
       form.validate((valid: boolean) => {
         if (!valid) return
         request.login(formField).then( ({data}) => {
-          store.commit('SET_TOKEN', data.token_head + ' ' + data.token)
+          store.commit('SET_TOKEN', data.token_head + data.token)
           router.push('/')
         })
       })

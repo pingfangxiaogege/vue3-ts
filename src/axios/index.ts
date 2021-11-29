@@ -17,7 +17,7 @@ instance.interceptors.request.use((config: AxiosRequestConfig) => {
 instance.interceptors.response.use(
   (response: AxiosResponse) => {
     const { data } = response;
-    if (data.code !== '10000' && response.config.responseType !== 'blob') {
+    if (data.code !== '100000' && response.config.responseType !== 'blob') {
       ElMessage({ message: data.message, type: 'warning' })
       return Promise.reject(data.message)
     }
