@@ -5,7 +5,8 @@ const instance: AxiosInstance = axios.create({
   // withCredentials: false,
   headers: {
     'Content-Type': 'application/json; charset=utf-8'
-  }
+  },
+  baseURL: process.env.VUE_APP_BASE_URL
 });
 
 instance.interceptors.request.use((config: AxiosRequestConfig) => {
