@@ -24,46 +24,31 @@
 <script lang="ts">
 import { ref, defineComponent, reactive } from 'vue'
 import { useRouter } from 'vue-router'
+import { CLogin } from '@/types/request-type/login'
+import CRequest from '@/api'
+import { formList } from '@/curd/login'
 
 export default defineComponent({
   setup() {
     const router = useRouter()
 
-    const searchList = ref([
-      {
-        prop: 'username', 
-        label: '', 
-        tagType: 'el-input', 
-        config: {
-          placeholder: '账号'
-        },
-        rules: [
-          {required: true, message: '请输入账号', trigger: 'blur'}
-        ]
-      },
-      {
-        prop: 'password', 
-        label: '', 
-        tagType: 'el-input', 
-        config: {
-          placeholder: '密码',
-          'show-password': true
-        },
-        rules: [
-          {required: true, message: '请输入密码', trigger: 'blur'}
-        ]
-      }
-    ])
+    const formField = reactive(new CLogin())
+    
+    const searchList = ref(formList)
+
     function login(form: any) {
       form.validate((valid: boolean) => {
         if (valid) {
-          router.push('/')
+          CRequest.login(formField).then( ({data}: any) => {
+            router.push('/')
+          })
         }
       })
     }
+
     return {
       searchList,
-      formField: reactive({ username: 'admin', password: '123456' }),
+      formField,
       login
     }
   }
