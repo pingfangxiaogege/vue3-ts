@@ -27,10 +27,12 @@ import { useRouter } from 'vue-router'
 import { formList } from '@/curd/login'
 import request from '@/api'
 import { CLogin } from '@/types/common'
+import { useStore } from 'vuex'
 
 export default defineComponent({
   setup() {
     const router = useRouter()
+    const store = useStore()
 
     const formField = reactive(new CLogin())
     
@@ -40,6 +42,7 @@ export default defineComponent({
       form.validate((valid: boolean) => {
         if (!valid) return
         request.login(formField).then( ({data}) => {
+          store.commit('SET_TOKEN', data.token_head + ' ' + data.token)
           router.push('/')
         })
       })

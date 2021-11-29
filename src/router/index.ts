@@ -1,10 +1,13 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import layouts from '../layouts/index.vue'
 import main from '../views/main.vue'
+import store from '@/store'
+import { ElMessage } from 'element-plus'
+
 
 const routes: Array<RouteRecordRaw> = [
   {
-    path: '',
+    path: '/',
     component: layouts,
     children: [
       {
@@ -21,7 +24,15 @@ const routes: Array<RouteRecordRaw> = [
         name: 'home',
         component: () => import(/* webpackChunkName: "home" */ '../views/Home.vue')  // 懒加载路由
       }
-    ]
+    ],
+    beforeEnter(to, from) {
+      if (!store.state.token) {
+        router.push({path: '/login'})
+        ElMessage({type: 'warning', message: 'Oops, 登录状态已失效，请重新登录。。。'})
+        return false
+      }
+      return true
+    }
   },
   {
     path: '/login',
