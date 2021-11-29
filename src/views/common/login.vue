@@ -24,9 +24,9 @@
 <script lang="ts">
 import { ref, defineComponent, reactive } from 'vue'
 import { useRouter } from 'vue-router'
-import { CLogin } from '@/types/request-type/login'
-import CRequest from '@/api'
 import { formList } from '@/curd/login'
+import request from '@/api'
+import { CLogin } from '@/types/common'
 
 export default defineComponent({
   setup() {
@@ -38,11 +38,10 @@ export default defineComponent({
 
     function login(form: any) {
       form.validate((valid: boolean) => {
-        if (valid) {
-          CRequest.login(formField).then( ({data}: any) => {
-            router.push('/')
-          })
-        }
+        if (!valid) return
+        request.login(formField).then( ({data}) => {
+          router.push('/')
+        })
       })
     }
 

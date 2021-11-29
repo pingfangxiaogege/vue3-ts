@@ -15,7 +15,7 @@ instance.interceptors.request.use((config: AxiosRequestConfig) => {
 
 instance.interceptors.response.use(
   (response: AxiosResponse) => {
-    const { status, data } = response;
+    const { data } = response;
     return Promise.resolve(data);
   },
   (err: AxiosError) => {

@@ -1,8 +1,9 @@
 import axios from "../axios"
-import { CLogin } from "@/types/request-type/login"
+import { ILogin } from "./request-type"
+import { IBase, CLoginRes } from "./response-type"
 
 export default {
-  login(formField: CLogin) {
+  login(formField: ILogin): Promise<IBase<CLoginRes>>{
     const formData = new FormData()
     formData.append('username', formField.username)
     formData.append('password', formField.password)
