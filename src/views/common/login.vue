@@ -25,7 +25,7 @@
 import { ref, defineComponent, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { formList } from '@/curd/login'
-import request from '@/api'
+import { common } from '@/api'
 import { CLogin } from '@/types/common'
 import { useStore } from 'vuex'
 
@@ -41,7 +41,7 @@ export default defineComponent({
     function login(form: any) {
       form.validate((valid: boolean) => {
         if (!valid) return
-        request.login(formField).then( ({data}) => {
+        common.login(formField).then( ({data}) => {
           store.commit('SET_TOKEN', data.token_head + data.token)
           router.push('/')
         })
