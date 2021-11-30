@@ -15,14 +15,14 @@ const mianRoutes: RouteRecordRaw = {
   name: 'layouts',
   component: layouts,
   children: [],
-  // beforeEnter(to, from, next) {
-  //   if (!store.state.token) {
-  //     next({path: '/login'})
-  //     ElMessage({type: 'warning', message: 'Oops, 登录状态已失效，请重新登录。。。'})
-  //     return false
-  //   }
-  //   return true
-  // }
+  beforeEnter(to, from) {
+    if (!store.state.token) {
+      router.push({path: '/login'})
+      ElMessage({type: 'warning', message: 'Oops, 登录状态已失效，请重新登录。。。'})
+      return false
+    }
+    return true
+  }
 }
 
 // 全局路由免token
@@ -50,6 +50,7 @@ router.beforeEach( (to, from, next) => {
   } else {
     common.getMenuList().then( ({data}) => {
       hasDynamic = true  // 避免重复调用接口
+      store.commit('SET_MENULIST', data)
       mianRoutes.children = addMenuAndRoute(data as IMenu[])
       router.addRoute(mianRoutes)
       next({...to, replace: true})
@@ -92,7 +93,7 @@ function getComponent(url: string) {
     const fullUrl = url.startsWith('/') ? url.slice(1) : url
     try {
       return _import(fullUrl)
-    } catch (e) {console.log(e, 'e') }
+    } catch (e: any) {console.log('找不到文件：', e.message ) }
   }
   return null
 }

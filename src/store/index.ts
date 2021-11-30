@@ -1,8 +1,10 @@
+import { IMenu } from '@/api/response-type'
 import { createStore } from 'vuex'
 
 export default createStore({
   state: {
-    token: localStorage.getItem('token') || ''
+    token: localStorage.getItem('token') || '',
+    menuList: [] as IMenu[]
   },
   mutations: {
     SET_TOKEN(state, token: string) {
@@ -12,6 +14,9 @@ export default createStore({
     REMOVE_TOKEN(state) {
       state.token = ''
       localStorage.removeItem('token')
+    },
+    SET_MENULIST(state, list: IMenu[]) {
+      state.menuList = list
     }
   },
   actions: {

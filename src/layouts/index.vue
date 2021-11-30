@@ -36,8 +36,6 @@ export default class Home extends Vue {}
 }
 
 .el-aside {
-  background-color: #d3dce6;
-  text-align: center;
   height: 100vh;
 }
 
