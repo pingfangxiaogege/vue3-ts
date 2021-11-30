@@ -29,7 +29,6 @@ export default class Home extends Vue {}
 </script>
 
 <style lang="scss" scoped>
-.el-header,
 .el-footer {
   background-color: #b3c0d1;
   text-align: center;

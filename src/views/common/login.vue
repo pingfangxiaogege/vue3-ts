@@ -43,7 +43,7 @@ export default defineComponent({
         if (!valid) return
         common.login(formField).then( ({data}) => {
           store.commit('SET_TOKEN', data.token_head + data.token)
-          router.push('/')
+          router.push({name: 'layouts'})
         })
       })
     }

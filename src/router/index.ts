@@ -5,7 +5,6 @@ import { ElMessage } from 'element-plus'
 import { common } from '@/api'
 import { IMenu } from '@/api/response-type'
 
-let hasDynamic: boolean = false
 // 开发环境不使用懒加载, 因为懒加载页面太多的话会造成webpack热更新太慢, 所以只有生产环境使用懒加载
 const _import = require('./import-' + (process.env.NODE_ENV === 'development' ? 'development' : 'production') );
 
@@ -45,11 +44,11 @@ const router = createRouter({
 
 // 路由拦截
 router.beforeEach( (to, from, next) => {
-  if (isGlobalRoutes(to) || hasDynamic) {
+  if (isGlobalRoutes(to) || store.state.hasDynamicRouter) {
     next()
   } else {
     common.getMenuList().then( ({data}) => {
-      hasDynamic = true  // 避免重复调用接口
+      store.commit('SET_DYNAMICROUTER', true)
       store.commit('SET_MENULIST', data)
       mianRoutes.children = addMenuAndRoute(data as IMenu[])
       router.addRoute(mianRoutes)

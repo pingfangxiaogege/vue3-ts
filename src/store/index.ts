@@ -4,7 +4,8 @@ import { createStore } from 'vuex'
 export default createStore({
   state: {
     token: localStorage.getItem('token') || '',
-    menuList: [] as IMenu[]
+    menuList: [] as IMenu[],
+    hasDynamicRouter: false
   },
   mutations: {
     SET_TOKEN(state, token: string) {
@@ -17,6 +18,9 @@ export default createStore({
     },
     SET_MENULIST(state, list: IMenu[]) {
       state.menuList = list
+    },
+    SET_DYNAMICROUTER(state, hasDynamic: boolean) {
+      state.hasDynamicRouter = hasDynamic
     }
   },
   actions: {
