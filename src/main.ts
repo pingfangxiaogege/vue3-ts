@@ -5,7 +5,7 @@ import store from './store'
 
 import ElementPlus from 'element-plus'
 // 需要放在下面
-import "element-plus/theme-chalk/src/index.scss"
+import 'element-plus/dist/index.css'
 import './assets/styles/index.scss'
 
 

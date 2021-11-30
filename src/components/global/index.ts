@@ -1,5 +1,7 @@
 // 自动引入global下的vue文件、不进行深层次的引入
 const vueFiles = require.context('./', false, /\.vue$/)
+// 图标
+import * as ElIconModules from '@element-plus/icons'
 
 import sForm from './forms/s-form.vue'
 
@@ -28,6 +30,14 @@ for (const name in manualImportFiles) {
     const component = manualImportFiles[name];
     components.push({name, component})
   }
+}
+
+for (const name in ElIconModules) {
+  components.push({name: translateName(name), component: (ElIconModules as any)[name]})
+}
+
+function translateName(name: string) {
+  return 'i' + name.replace(/[A-Z]/g, (match) => '-' + match.toLowerCase())
 }
 
 export { components }
