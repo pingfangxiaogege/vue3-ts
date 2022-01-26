@@ -1,14 +1,15 @@
 <template>
-  <el-form ref="form" :model="formField" @submit.prevent v-bind="option">
+  <el-form ref="form" v-model="formField" @submit.prevent v-bind="option">
     <el-row :gutter="20">
       <el-col v-for="(formItem, index) in searchList" :key="index+'formItem'" :span="formItem.span">
-        <el-form-item :prop="formItem.prop" :label="formItem.label" v-bind="formItem">
-          <form-comp :formItem="formItem" :formField="formField" v-if="formItem.tagType !== 'slot'">
+        <el-form-item :prop="formItem.prop" :label="formItem.label">
+          <!-- <component :is="getComponent(formItem.tagType)" v-bind="getBind(formItem)" v-on="getEvents(formItem)"></component> -->
+          <sFormItem :formField="formField" :formItem="formItem">
+            <!-- 传递给子节点的slot -->
             <template #[name] v-for="name in Object.keys($slots)">
               <slot :name="name" v-bind="{formField, prop: formItem.prop}"></slot>
             </template>
-          </form-comp>
-          <slot v-else :name="formItem.prop" v-bind="{formField, prop: formItem.prop}"></slot>
+          </sFormItem>
         </el-form-item>
       </el-col>
       <el-col :span="24">
@@ -24,15 +25,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
-import formComp from './form-comp.vue'
-import ItemTsx from './item-tsx.vue'
+import { defineComponent, ref  } from 'vue'
+import sFormItem from './s-form-item.vue'
 export default defineComponent({
   name: 'sForm',
-  inheritAttrs: false,
   components: {
-    formComp,
-    ItemTsx
+    sFormItem
   },
   props: {
     formField: {
@@ -48,7 +46,8 @@ export default defineComponent({
       default: () => ({})
     }
   },
-  setup(props, {emit}) {
+  setup(props, {emit, slots}) {
+    console.log(slots, 'slots')
     const form = ref(null)
     return {
       form,

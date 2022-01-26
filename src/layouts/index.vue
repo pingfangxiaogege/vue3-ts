@@ -41,7 +41,6 @@ export default class Home extends Vue {}
 .el-main {
   background-color: #e9eef3;
   text-align: center;
-  line-height: 160px;
 }
 
 body > .el-container {

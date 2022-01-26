@@ -13,7 +13,9 @@ const mianRoutes: RouteRecordRaw = {
   path: '/',
   name: 'layouts',
   component: layouts,
-  children: [],
+  children: [
+    {path: '/', name: 'home', component: () => import('../views/main.vue')}
+  ],
   beforeEnter(to, from) {
     if (!store.state.token) {
       router.push({path: '/login'})
@@ -50,7 +52,8 @@ router.beforeEach( (to, from, next) => {
     common.getMenuList().then( ({data}) => {
       store.commit('SET_DYNAMICROUTER', true)
       store.commit('SET_MENULIST', data)
-      mianRoutes.children = addMenuAndRoute(data as IMenu[])
+      mianRoutes.children =
+      [...(mianRoutes.children as []), ...addMenuAndRoute(data as IMenu[])]
       router.addRoute(mianRoutes)
       next({...to, replace: true})
     })
